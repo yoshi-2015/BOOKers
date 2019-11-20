@@ -1,2 +1,20 @@
-<h1>Books#show</h1>
-<p>Find me in app/views/books/show.html.erb</p>
+<!-- 詳細ページ -->
+
+<!-- 新規登録完了通知 -->
+<% if flash[:notice] %>
+  <p><%= flash[:notice] %></p>
+<% end %>
+
+<!-- link_to -->
+<h4>Title</h4>
+<%= @book.title %>
+
+
+<h4>Body</h4>
+<%= @book.body %>
+
+<br>
+<h4>
+  <%= link_to "edit", edit_book_path %>
+  <%= link_to "back", books_path %>
+</h4>

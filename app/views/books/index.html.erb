@@ -1,11 +1,17 @@
+<!-- 一覧＋投稿ページ -->
+
+<% if flash[:notice] %>
+  <p><%= flash[:notice] %></p>
+<% end %>
+
 <h1>BOOKs</h1>
 
 <!-- 投稿一覧表 -->
 <table>
   <thead>
   <tr>
-    <th>title</th>
-    <th>body</th>
+    <th>Title</th>
+    <th>Body</th>
     <th></th>
   </tr>
   </thead>
@@ -17,14 +23,13 @@
         <td><%= book.body %></td>
         <td>
           <%= link_to "show", book_path(book.id) %>
-          <%= link_to "edit", book_path(book.id) %>
-          <%= link_to "delete", book_path(book.id) ,method: :delete,"data-confirm" => "本当に削除しますか?"%>
+          <%= link_to "edit", edit_book_path(book.id) %>
+          <%= link_to "delete", book_path(book.id) ,method: :delete ,"data-confirm" => "本当に削除しますか？" %>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
 
 
 <!-- 新規投稿フォーム -->
