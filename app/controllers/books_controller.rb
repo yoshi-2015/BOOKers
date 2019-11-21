@@ -9,13 +9,17 @@ class BooksController < ApplicationController
     @books = Book.all
   end
   def create
-    book = Book.new(book_params)
-    book.save
-    # if文でエラー吐いた時の対応を記述
-    flash[:notice] = "登録完了しました！Book was successfully created."
-    # rails routesで調べるとshowがbookとなっていた
-    # 更に登録したデータを保存するのはbook.saveのため、引数もbookでOK
-    redirect_to book_path(book)
+    @book = Book.new(book_params)
+    if @book.save
+      flash[:notice] = "登録完了しました！Book was successfully created."
+      redirect_to book_path(@book)
+    else
+      # ここに@book = Book.newを入れてしまうと、
+      # せっかくエラーが出ているのに上書きしてしまうため記述しない！
+      # 全件取得して欲しい情報だけ入れてあげる
+      @books = Book.all
+      render :index
+    end
   end
 
   def show
@@ -26,11 +30,13 @@ class BooksController < ApplicationController
     @book = Book.find(params[:id])
   end
   def update
-    book = Book.find(params[:id])
-    book.update(book_params)
-    # if文でエラー吐いた時の対応を記述
-    flash[:notice] = "編集完了しました！Book was successfully updated."
-    redirect_to book_path(book)
+    @book = Book.find(params[:id])
+    if @book.update(book_params)
+      flash[:notice] = "編集完了しました！Book was successfully updated."
+      render :show
+    else
+      render :edit
+    end
   end
 
   def destroy
@@ -46,3 +52,7 @@ class BooksController < ApplicationController
     params.require(:book).permit(:title, :body)
   end
 end
+
+
+
+

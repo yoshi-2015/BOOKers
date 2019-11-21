@@ -1,7 +1,9 @@
 <!-- 一覧＋投稿ページ -->
 
 <% if flash[:notice] %>
-  <p><%= flash[:notice] %></p>
+  <div class="flash">
+    <%= flash[:notice] %>
+  </div>
 <% end %>
 
 <h1>BOOKs</h1>
@@ -35,14 +37,27 @@
 <!-- 新規投稿フォーム -->
 <h2>New book</h2>
 
-<%= form_for(@book) do |f| %>
+<%= form_for(@book, url: books_path) do |f| %>
 
-<h4>Title</h4>
-<%= f.text_field :title %>
+  <% if @book.errors.any? %>
+      <h2><%= @book.errors.count %> errors prohibited this book from being saved:</h2>
 
-<h4>Body</h4>
-<%= f.text_area :body %>
+      <ul>
+      <% @book.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+  <% end %>
 
-<br><%= f.submit 'Create Book' %></br>
+  <h4>Title</h4>
+  <%= f.text_field :title %>
 
+  <h4>Body</h4>
+  <%= f.text_area :body %>
+
+  <br><%= f.submit 'Create Book' %></br>
 <% end %>
+
+
+
+
